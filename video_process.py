@@ -14,8 +14,6 @@ from keras.models import load_model
 svc_model = pickle.load(open("svm_model.p", "rb"))
 svc_scaler = pickle.load(open("svm_scaler.p", "rb"))
 cnn_model = load_model("model.h5")
-#load parameters
-#load_params = pickle.load(open("svm_param.p", "rb"))
 
 # Parameters
 color_space = 'RGB' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
@@ -38,14 +36,9 @@ xy_overlap_80 = [0.5,0.5]
 xy_overlap_128 = [0.5, 0.5]
 
 # placeholder to save frames from video
-frames = []
 heatmap_glob = None
 
 def process_image(image):
-	# load image
-	#image = mpimg.imread('test6.jpg')
-	# crop the sky
-	# image_cropped = image[400:960, 0:1280]
 
 	# image copied to be drawn into
 	draw_image = np.copy(image)
@@ -142,7 +135,6 @@ def process_image(image):
 	# Check if this is first init, initialise global heatmap
 	global heatmap_glob
 	if (heatmap_glob == None):
-		print('yes')
 		heatmap_glob = heatmap
 
 	new_frame_factor = 0.3
