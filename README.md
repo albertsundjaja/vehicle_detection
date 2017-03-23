@@ -8,7 +8,7 @@ Below is a sample image taken from the repo
 
 Below is the above picture with HOG features extracted
 
-![Image test1_hog.jpg](images/test1.jpg)
+![Image test1_hog.jpg](images/test1_hog.jpg)
 
 HOG features was extracted by first converting the image into grayscale since HOG only accept one channel
 After experimentation, the optimal parameters are as follow
@@ -20,6 +20,8 @@ The result can be seen on the HOG image above, we can identify the shape of both
 
 ## Classifier
 The classifiers used are SVM and CNN. The SVM and CNN were trained using the udacity small sets of vehicles and non vehicles. The SVM uses the rbf kernel, and all other parameters are left at default. The CNN is a mini inception model.
+
+In addition to HOG, other image features such as spatial bins, RGB Histogram, HSV Histogram and YCrCb Histogram are used. The intuition is to mimic how human eyes and brain works in detecting and classifying objects.
 
 ## Sliding Window
 I used 3 different sized sliding windows. The intuition is the farther the object from the camera, the smaller it will be.
@@ -34,9 +36,13 @@ Below is the image after sliding windows and SVM model has predicted for positiv
 
 As can be seen on the image above, there are a lot of overlapping between the 3 different sliding windows, therefore a heatmap approach was taken to identify false positives. Further, the result of the heatmap is fed into a CNN to further ensure that the window does contain a car. The CNN does a good job in predicting a car / not car. I am currently working to remove the SVM completely and just use CNN to classify the sliding window, it seems that CNN is indeed more robust than SVM.
 
+Below is the final image after CNN prediction
+![Image test5_cnn.jpg](images/test5_cnn.jpg)
+
 ## Video Implementation
 After ensuring that my model can classify a static image, I tried the model to detect vehicles in the video. The model does predict nicely, however, one problem is that the bounding box is very wobbly. Therefore I tried to save several frames and compare them when drawing bounding boxes, it was unsuccessful, clearly because of my incompetence in implementing it :). A suggestion from a mentor (Patrick Kern, you deserve a shoutout) to use heatmap instead point me in the right direction. The heatmap was averaged and updated when new frames come into the function, and the resulting heatmap was used to draw the bounding box. It was a major improvement in the boxes drawn. The final video is included in this github repo, project_output.mp4
 
-
+## Discussion and Further Improvement
+I thought that SVM was superior than neural network, however, after using the inception model. It seems that CNN is superior and faster to train. It might be possible to even scrape the sliding window and just use CNN to locate vehicle in the image. I'm working to make this possible. Bounding boxes are still wobbly, using both heatmap and averaging image accross several frames could improve in better bounding boxes. Or better yet, use pure CNN to draw these bounding boxes. Given the robustness of CNN, I'm positive that this too is possible.
 
 
